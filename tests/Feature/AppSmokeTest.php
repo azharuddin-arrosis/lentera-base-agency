@@ -100,7 +100,7 @@ it('membuka halaman admin setelah login', function (string $url) {
     '/admin/trades', '/admin/trades/create',
     '/admin/services', '/admin/services/create',
     '/admin/testimonials', '/admin/testimonials/create',
-    '/admin/leads', '/admin/binance', '/admin/bookings',
+    '/admin/leads', '/admin/binance', '/admin/bookings', '/admin/financial-plan',
 ]);
 
 it('membuka form edit admin', function () {
@@ -337,4 +337,51 @@ it('menginput PnL manual via admin', function () {
     ])->assertRedirect('/admin/trades');
 
     expect(Trade::where('symbol', 'ETHUSDT')->exists())->toBeTrue();
+});
+
+// ---- Financial Plan ----
+it('menampilkan rekap financial plan dengan PnL harian & total WD', function () {
+    \App\Models\Withdrawal::create([
+        'member_id' => $this->member->id,
+        'amount' => 500,
+        'withdrawn_at' => now()->subDays(3)->toDateString(),
+        'method' => 'USDT TRC20',
+    ]);
+
+    $this->actingAs($this->admin)->get('/admin/financial-plan')
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('admin/financial-plan/Index')
+            ->where('summary.total_withdrawn', 500)
+            ->where('summary.total_pnl', 150)
+            ->where('summary.remaining', -350)
+            ->has('daily', 1)
+            ->has('withdrawals.data', 1));
+});
+
+it('mencatat & menghapus withdrawal via financial plan', function () {
+    $this->actingAs($this->admin)->post('/admin/financial-plan/withdrawals', [
+        'member_id' => $this->member->id,
+        'amount' => 750,
+        'withdrawn_at' => now()->toDateString(),
+        'method' => 'Bank BCA',
+    ])->assertRedirect('/admin/financial-plan');
+
+    $wd = \App\Models\Withdrawal::firstWhere('amount', 750);
+    expect($wd)->not->toBeNull();
+
+    $this->actingAs($this->admin)->delete("/admin/financial-plan/withdrawals/{$wd->id}")->assertRedirect();
+    expect(\App\Models\Withdrawal::find($wd->id))->toBeNull();
+});
+
+it('menolak withdrawal dengan jumlah kosong', function () {
+    $this->actingAs($this->admin)->post('/admin/financial-plan/withdrawals', [
+        'member_id' => $this->member->id,
+        'withdrawn_at' => now()->toDateString(),
+    ])->assertSessionHasErrors('amount');
+});
+
+it('memblokir financial plan untuk non-admin', function () {
+    $user = User::factory()->create(['role' => 'user']);
+    $this->actingAs($user)->get('/admin/financial-plan')->assertRedirect('/');
 });

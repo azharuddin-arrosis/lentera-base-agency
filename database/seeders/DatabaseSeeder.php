@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\Trade;
 use App\Models\User;
+use App\Models\Withdrawal;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
@@ -77,6 +78,17 @@ class DatabaseSeeder extends Seeder
                 $m->trades()->delete();
                 $m->delete();
             });
+
+        // ---- Contoh withdrawal (rekap Financial Plan) ----
+        $this->seedWithdrawals($azhar, [
+            ['amount' => 1500, 'ago' => 120, 'method' => 'USDT TRC20', 'note' => 'Tarik profit bulanan'],
+            ['amount' => 2000, 'ago' => 60, 'method' => 'USDT TRC20', 'note' => 'Realisasi profit'],
+            ['amount' => 1200, 'ago' => 20, 'method' => 'Bank BCA', 'note' => null],
+        ]);
+        $this->seedWithdrawals($krisna, [
+            ['amount' => 800, 'ago' => 90, 'method' => 'USDT TRC20', 'note' => 'Tarik profit'],
+            ['amount' => 1000, 'ago' => 25, 'method' => 'Bank Mandiri', 'note' => null],
+        ]);
 
         // ---- Akun login untuk Team (role: team) — password: "password" ----
         User::updateOrCreate(['email' => 'azharuddin@lentera.id'], [
@@ -184,6 +196,23 @@ class DatabaseSeeder extends Seeder
                 'notes' => $isWin ? 'Setup sesuai plan, TP tercapai.' : 'Kena SL, market berbalik. Disiplin cut loss.',
                 'opened_at' => (clone $closedAt)->subHours(mt_rand(1, 30)),
                 'closed_at' => $closedAt,
+            ]);
+        }
+    }
+
+    /**
+     * @param  array<int, array{amount: float, ago: int, method: ?string, note: ?string}>  $rows
+     */
+    protected function seedWithdrawals(Member $member, array $rows): void
+    {
+        $member->withdrawals()->delete();
+        foreach ($rows as $r) {
+            Withdrawal::create([
+                'member_id' => $member->id,
+                'amount' => $r['amount'],
+                'withdrawn_at' => Carbon::now()->subDays($r['ago'])->toDateString(),
+                'method' => $r['method'],
+                'note' => $r['note'],
             ]);
         }
     }

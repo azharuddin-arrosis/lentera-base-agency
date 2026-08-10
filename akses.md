@@ -45,8 +45,9 @@ Legenda: ✅ boleh · ⛔ ditolak/diarahkan · ↪️ dialihkan ke area role-nya
 | `/dashboard` (ringkasan backoffice) | ✅ | ↪️ `/panel` | ↪️ `/` |
 | `/admin/members` (Team) | ✅ | ↪️ `/panel` | ↪️ `/` |
 | `/admin/trades` (Trade & PnL) | ✅ | ↪️ `/panel` | ↪️ `/` |
+| `/admin/financial-plan` (Financial Plan: rekap WD + PnL harian) | ✅ | ↪️ `/panel` | ↪️ `/` |
 | `/admin/signals` (Signal) | ✅ | ↪️ `/panel` | ↪️ `/` |
-| `/admin/bookings` (Jadwal Konsultasi) | ✅ | ↪️ `/panel` | ↪️ `/` |
+| `/admin/bookings` (Jadwal Konsultasi — **disembunyikan** dari menu, route tetap aktif) | ✅ | ↪️ `/panel` | ↪️ `/` |
 | `/admin/leads` (Pesan Masuk) | ✅ | ↪️ `/panel` | ↪️ `/` |
 | `/admin/services`, `/admin/testimonials` | ✅ | ↪️ `/panel` | ↪️ `/` |
 | `/admin/binance` (Sinkron Binance) | ✅ | ↪️ `/panel` | ↪️ `/` |
@@ -63,7 +64,7 @@ Sidebar juga otomatis menyesuaikan: admin melihat menu backoffice lengkap, team 
 
 ### A. Admin
 1. Login `admin@lentera.id` / `password` → harus mendarat di **`/dashboard`**.
-2. Sidebar menampilkan grup: Ringkasan, Performa & Tim, **Sinyal & Market**, Konsultasi, Konten Web.
+2. Sidebar menampilkan grup: Ringkasan, Performa & Tim (termasuk **Financial Plan**), **Sinyal & Market**, Kotak Masuk, Konten Web. (Menu Konsultasi/Jadwal disembunyikan sementara.)
 3. Buka `/admin/signals` → bisa buat/edit/hapus signal.
 4. Buka `/panel` → **dialihkan ke `/dashboard`** (bukan area admin).
 

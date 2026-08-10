@@ -61,6 +61,16 @@ class Member extends Model
         return $this->hasMany(Trade::class)->where('status', 'closed');
     }
 
+    public function withdrawals(): HasMany
+    {
+        return $this->hasMany(Withdrawal::class);
+    }
+
+    protected function totalWithdrawn(): Attribute
+    {
+        return Attribute::get(fn () => (float) $this->withdrawals->sum('amount'));
+    }
+
     // ---- Statistik terhitung ----
 
     protected function totalPnl(): Attribute

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { Briefcase, CalendarClock, CandlestickChart, Globe, LayoutGrid, MessagesSquare, Quote, Radio, Sparkles, Users } from '@lucide/vue';
+import { Briefcase, CandlestickChart, Globe, LayoutGrid, MessagesSquare, Quote, Radio, Sparkles, Users, Wallet } from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
@@ -29,6 +29,7 @@ const adminMenu: NavGroup[] = [
         items: [
             { title: 'Team', href: '/admin/members', icon: Users },
             { title: 'Trade & PnL', href: '/admin/trades', icon: CandlestickChart },
+            { title: 'Financial Plan', href: '/admin/financial-plan', icon: Wallet },
             { title: 'Sinkron Binance', href: '/admin/binance', icon: Sparkles },
         ],
     },
@@ -38,10 +39,10 @@ const adminMenu: NavGroup[] = [
             { title: 'Signal', href: '/admin/signals', icon: Radio },
         ],
     },
+    // Fitur Konsultasi disembunyikan sementara (route tetap aktif, cukup aktifkan lagi item ini).
     {
-        label: 'Konsultasi',
+        label: 'Kotak Masuk',
         items: [
-            { title: 'Jadwal Konsultasi', href: '/admin/bookings', icon: CalendarClock },
             { title: 'Pesan Masuk', href: '/admin/leads', icon: MessagesSquare },
         ],
     },
@@ -59,14 +60,13 @@ const teamMenu: NavGroup[] = [
         label: 'Team',
         items: [
             { title: 'Panel Saya', href: '/panel', icon: LayoutGrid },
-            { title: 'Jadwalkan Konsultasi', href: '/schedule', icon: CalendarClock },
         ],
     },
 ];
 
 // Role 'user'/klien belum punya backoffice — menu minimal saja.
 const userMenu: NavGroup[] = [
-    { label: 'Menu', items: [{ title: 'Jadwalkan Konsultasi', href: '/schedule', icon: CalendarClock }] },
+    { label: 'Menu', items: [{ title: 'Signal', href: '/signals', icon: Radio }] },
 ];
 
 const menuByRole: Record<string, NavGroup[]> = {

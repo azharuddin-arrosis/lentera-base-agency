@@ -74,8 +74,8 @@ const iconMap: Record<string, Component> = {
                         dan analisis berbasis manajemen risiko. Transparan, dengan rekam jejak yang bisa Anda pantau.
                     </p>
                     <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                        <Link href="/schedule" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:-translate-y-0.5">
-                            Jadwalkan Konsultasi <ArrowRight class="size-4" />
+                        <Link href="/signals" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-emerald-400 to-green-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:-translate-y-0.5">
+                            Lihat Signal Trading <ArrowRight class="size-4" />
                         </Link>
                         <Link href="/performance" class="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3 text-sm font-semibold transition-colors hover:bg-muted">
                             <LineChart class="size-4" /> Lihat Track Record

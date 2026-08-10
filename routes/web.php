@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BinanceController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FinancialPlanController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\BookingStatusController;
 use App\Http\Controllers\Admin\LeadController;
@@ -70,6 +71,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('signals', AdminSignalController::class)->except('show');
         Route::resource('services', ServiceController::class)->except('show');
         Route::resource('testimonials', TestimonialController::class)->except('show');
+
+        // Financial Plan — rekap trading: total WD (input manual) + PnL harian (otomatis)
+        Route::get('financial-plan', [FinancialPlanController::class, 'index'])->name('financial-plan.index');
+        Route::post('financial-plan/withdrawals', [FinancialPlanController::class, 'store'])->name('financial-plan.store');
+        Route::put('financial-plan/withdrawals/{withdrawal}', [FinancialPlanController::class, 'update'])->name('financial-plan.update');
+        Route::delete('financial-plan/withdrawals/{withdrawal}', [FinancialPlanController::class, 'destroy'])->name('financial-plan.destroy');
 
         Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
         Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');

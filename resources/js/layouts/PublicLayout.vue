@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { onClickOutside } from '@vueuse/core';
-import { CalendarClock, ChevronDown, Clock, LogIn, Menu, Moon, Sun, X } from '@lucide/vue';
+import { LogIn, Menu, Moon, Radio, Sun, X } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import AnimatedLogo from '@/components/AnimatedLogo.vue';
 import { Toaster } from '@/components/ui/sonner';
@@ -15,22 +14,7 @@ const toggleTheme = () => updateAppearance(resolvedAppearance.value === 'dark' ?
 
 const mobileOpen = ref(false);
 
-// dropdown Jadwal Konsultasi
-const scheduleOpen = ref(false);
-const scheduleRef = ref<HTMLElement | null>(null);
-onClickOutside(scheduleRef, () => (scheduleOpen.value = false));
-
-const scheduleSlots = [
-    { day: 'Senin – Jumat', time: '09.00 – 21.00 WIB' },
-    { day: 'Sabtu', time: '09.00 – 15.00 WIB' },
-    { day: 'Minggu', time: 'Libur (chat tetap dibalas)' },
-];
-const consultTypes = [
-    { title: 'Sinyal Trading Harian', desc: 'Diskusi setup & entry harian' },
-    { title: 'Mentoring 1-on-1', desc: 'Sesi privat terjadwal' },
-    { title: 'Analisis Portofolio', desc: 'Audit & review posisi Anda' },
-];
-
+// Catatan: fitur Konsultasi disembunyikan sementara (route /schedule tetap aktif).
 const nav = [
     { label: 'Beranda', href: '/' },
     { label: 'Tim', href: '/team' },
@@ -65,61 +49,6 @@ const isActive = (href: string) => (href === '/' ? currentPath.value === '/' : c
                         >
                             {{ item.label }}
                         </Link>
-
-                        <!-- Dropdown Jadwal Konsultasi -->
-                        <div ref="scheduleRef" class="relative">
-                            <button
-                                type="button"
-                                class="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                                @click="scheduleOpen = !scheduleOpen"
-                            >
-                                Jadwal Konsultasi
-                                <ChevronDown class="size-4 transition-transform" :class="{ 'rotate-180': scheduleOpen }" />
-                            </button>
-
-                            <transition
-                                enter-active-class="transition duration-150 ease-out"
-                                enter-from-class="opacity-0 -translate-y-1"
-                                leave-active-class="transition duration-100 ease-in"
-                                leave-to-class="opacity-0 -translate-y-1"
-                            >
-                                <div v-if="scheduleOpen" class="absolute left-0 top-full mt-2 w-80 rounded-2xl border border-border/60 bg-card p-4 shadow-lg">
-                                    <div class="flex items-center gap-2 text-sm font-semibold">
-                                        <CalendarClock class="size-4 text-emerald-500" /> Jam Konsultasi
-                                    </div>
-                                    <ul class="mt-3 space-y-1.5">
-                                        <li v-for="s in scheduleSlots" :key="s.day" class="flex items-center justify-between text-xs">
-                                            <span class="text-muted-foreground">{{ s.day }}</span>
-                                            <span class="inline-flex items-center gap-1 font-medium"><Clock class="size-3" /> {{ s.time }}</span>
-                                        </li>
-                                    </ul>
-
-                                    <div class="my-3 h-px bg-border/60"></div>
-
-                                    <p class="mb-2 text-xs font-semibold text-muted-foreground">Pilih jenis konsultasi</p>
-                                    <div class="space-y-1">
-                                        <Link
-                                            v-for="c in consultTypes"
-                                            :key="c.title"
-                                            href="/schedule"
-                                            class="block rounded-lg px-3 py-2 transition-colors hover:bg-muted"
-                                            @click="scheduleOpen = false"
-                                        >
-                                            <p class="text-sm font-medium">{{ c.title }}</p>
-                                            <p class="text-xs text-muted-foreground">{{ c.desc }}</p>
-                                        </Link>
-                                    </div>
-
-                                    <Link
-                                        href="/schedule"
-                                        class="mt-3 flex items-center justify-center gap-1.5 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 px-3 py-2 text-sm font-semibold text-white"
-                                        @click="scheduleOpen = false"
-                                    >
-                                        <CalendarClock class="size-4" /> Jadwalkan Sekarang
-                                    </Link>
-                                </div>
-                            </transition>
-                        </div>
                     </nav>
                 </div>
 
@@ -150,10 +79,10 @@ const isActive = (href: string) => (href === '/' ? currentPath.value === '/' : c
                     </Link>
                     <Link
                         v-else
-                        href="/schedule"
+                        href="/signals"
                         class="hidden rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 sm:inline-flex sm:items-center sm:gap-1.5"
                     >
-                        <CalendarClock class="size-4" /> Konsultasi
+                        <Radio class="size-4" /> Lihat Signal
                     </Link>
 
                     <button
@@ -181,11 +110,8 @@ const isActive = (href: string) => (href === '/' ? currentPath.value === '/' : c
                     >
                         {{ item.label }}
                     </Link>
-                    <Link href="/schedule" class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground" @click="mobileOpen = false">
-                        <CalendarClock class="size-4" /> Jadwal Konsultasi
-                    </Link>
-                    <Link :href="user ? '/dashboard' : '/schedule'" class="mt-1 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 px-3 py-2.5 text-center text-sm font-semibold text-white" @click="mobileOpen = false">
-                        {{ user ? 'Dashboard' : 'Konsultasi Sekarang' }}
+                    <Link :href="user ? '/dashboard' : '/signals'" class="mt-1 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 px-3 py-2.5 text-center text-sm font-semibold text-white" @click="mobileOpen = false">
+                        {{ user ? 'Dashboard' : 'Lihat Signal' }}
                     </Link>
                 </nav>
             </div>

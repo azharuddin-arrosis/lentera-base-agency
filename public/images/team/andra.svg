@@ -1,0 +1,60 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sketsa Andra Pratama">
+  <defs>
+    <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fde68a"/>
+      <stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="shirtA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="400" height="400" rx="200" fill="url(#bgA)"/>
+  <circle cx="200" cy="200" r="196" fill="none" stroke="#00000012" stroke-width="8"/>
+
+  <!-- shoulders / shirt -->
+  <path d="M92 400 C96 320 140 292 200 292 C260 292 304 320 308 400 Z" fill="url(#shirtA)"/>
+  <path d="M200 292 L200 340" stroke="#334155" stroke-width="3" fill="none"/>
+  <path d="M176 300 L200 336 L224 300" fill="#0b1220"/>
+
+  <!-- neck -->
+  <path d="M178 260 C178 288 222 288 222 260 L222 236 L178 236 Z" fill="#e8b48c"/>
+  <path d="M178 260 C178 288 222 288 222 260" fill="#00000010"/>
+
+  <!-- head (sketch line-art) -->
+  <g stroke="#1f2937" stroke-width="3.5" fill="#f4c69f" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M139 176 C139 118 168 92 200 92 C232 92 261 118 261 176 C261 220 236 258 200 258 C164 258 139 220 139 176 Z"/>
+    <!-- ears -->
+    <path d="M139 176 C128 172 126 196 140 200" fill="#f4c69f"/>
+    <path d="M261 176 C272 172 274 196 260 200" fill="#f4c69f"/>
+  </g>
+
+  <!-- hair (short, neat) -->
+  <path d="M134 172 C132 120 162 82 200 82 C238 82 268 118 266 172
+           C258 150 250 138 236 132 C230 150 214 156 200 156 C186 156 170 150 164 132
+           C150 140 142 152 134 172 Z" fill="#171923"/>
+  <path d="M164 132 C176 120 224 120 236 132" fill="none" stroke="#0b0d12" stroke-width="2.5"/>
+
+  <!-- eyebrows -->
+  <path d="M162 176 C172 170 184 170 192 175" fill="none" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <path d="M208 175 C216 170 228 170 238 176" fill="none" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- eyes -->
+  <g stroke="#1f2937" stroke-width="3" fill="#fff" stroke-linecap="round">
+    <path d="M164 190 C172 184 186 184 192 190 C186 198 172 198 164 190 Z"/>
+    <path d="M208 190 C214 184 228 184 236 190 C228 198 214 198 208 190 Z"/>
+  </g>
+  <circle cx="178" cy="190" r="4.2" fill="#1f2937"/>
+  <circle cx="222" cy="190" r="4.2" fill="#1f2937"/>
+
+  <!-- nose -->
+  <path d="M200 194 L195 216 C195 222 205 222 205 216" fill="none" stroke="#b9825c" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- mouth -->
+  <path d="M182 232 C193 240 207 240 218 232" fill="none" stroke="#8a4b3a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- light stubble / jaw shading -->
+  <path d="M160 226 C176 250 224 250 240 226" fill="none" stroke="#00000018" stroke-width="10" stroke-linecap="round"/>
+</svg>

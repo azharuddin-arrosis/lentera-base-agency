@@ -29,7 +29,7 @@ dijaga middleware `admin` (`EnsureAdmin`) & `team` (`EnsureTeam`), dan redirect 
 |------|-------|----------|---------|
 | admin | `admin@lentera.id` | `password` | Akses penuh backoffice |
 | team | `azharuddin@lentera.id` | `password` | Terhubung ke profil konsultan Azharuddin |
-| team | `andra@lentera.id` | `password` | Terhubung ke profil konsultan Andra |
+| team | `krisna@lentera.id` | `password` | Terhubung ke profil konsultan Krisna |
 | user/klien | — | — | Buat sendiri (lihat §5) |
 
 Login manual lewat halaman `/login` (email + password).

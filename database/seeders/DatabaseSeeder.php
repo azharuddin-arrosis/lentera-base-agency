@@ -48,103 +48,43 @@ class DatabaseSeeder extends Seeder
         $azhar->trades()->delete();
         $this->seedTrades($azhar, ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT'], 52, 0.68, 300);
 
-        // ---- Member (avatar sketsa SVG) ----
-        $andra = Member::updateOrCreate(['slug' => 'andra-pratama'], [
-            'name' => 'Andra Pratama',
-            'title' => 'Lead Consultant · Crypto Futures',
-            'tagline' => 'Disiplin, sabar, dan selalu pakai manajemen risiko.',
-            'bio' => 'Andra menekuni pasar kripto sejak 2018 dengan spesialisasi trading futures BTC & ETH. '
-                .'Pendekatannya berbasis price action multi-timeframe dan manajemen risiko ketat (maks 1-2% per posisi). '
-                .'Ia percaya konsistensi jauh lebih penting daripada sekadar profit besar sesekali.',
-            'avatar' => '/images/team/andra.svg',
-            'specialization' => 'Crypto Futures (BTC/ETH)',
-            'experience_years' => 7,
+        // ---- Konsultan: Krisna (avatar inisial otomatis) ----
+        $krisna = Member::updateOrCreate(['slug' => 'krisna-catur-agung-perdana'], [
+            'name' => 'Krisna Catur Agung Perdana',
+            'title' => 'Konsultan Trading · Crypto & Futures',
+            'tagline' => 'Eksekusi disiplin, kelola risiko, tumbuh konsisten.',
+            'bio' => 'Krisna adalah konsultan trading di Lentera Project dengan fokus pada crypto & futures. '
+                .'Pendekatannya menekankan proses yang berulang: rencana jelas, manajemen risiko ketat, dan evaluasi '
+                .'berkala agar anggota mampu trading secara mandiri.',
+            'specialization' => 'Crypto Futures · Price Action',
+            'experience_years' => 5,
             'location' => 'Surabaya, Indonesia',
-            'joined_at' => '2019-03-01',
-            'consultation_rate' => 350000,
-            'telegram' => 'https://t.me/andrapratama',
-            'instagram' => 'https://instagram.com/andra.trades',
-            'twitter' => 'https://x.com/andratrades',
-            'tradingview' => 'https://tradingview.com/u/andrapratama',
+            'joined_at' => '2020-05-01',
+            'consultation_rate' => 300000,
+            'telegram' => 'https://t.me/krisnacatur',
+            'instagram' => 'https://instagram.com/krisna.trades',
             'is_active' => true,
             'is_featured' => true,
             'sort_order' => 1,
         ]);
+        $krisna->trades()->delete();
+        $this->seedTrades($krisna, ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT'], 40, 0.62, 200);
 
-        $bima = Member::updateOrCreate(['slug' => 'bima-saputra'], [
-            'name' => 'Bima Saputra',
-            'title' => 'Senior Analyst · Swing & Price Action',
-            'tagline' => 'Baca struktur pasar, ikuti trend, kelola risiko.',
-            'bio' => 'Bima adalah analis teknikal yang fokus pada swing trading dan price action. '
-                .'Ia banyak membantu klien memahami struktur market, area supply-demand, serta psikologi trading. '
-                .'Gaya tradingnya tenang dengan target realistis dan rasio risk-reward minimal 1:2.',
-            'avatar' => '/images/team/bima.svg',
-            'specialization' => 'Swing Trading · Price Action',
-            'experience_years' => 5,
-            'location' => 'Bandung, Indonesia',
-            'joined_at' => '2021-06-15',
-            'consultation_rate' => 300000,
-            'telegram' => 'https://t.me/bimasaputra',
-            'instagram' => 'https://instagram.com/bima.priceaction',
-            'twitter' => 'https://x.com/bimapa',
-            'tradingview' => 'https://tradingview.com/u/bimasaputra',
-            'is_active' => true,
-            'is_featured' => true,
-            'sort_order' => 2,
-        ]);
+        // Jaga tim tetap 2 orang: hapus member lama selain Azharuddin & Krisna
+        Member::whereNotIn('slug', ['azharuddin-arrosis', 'krisna-catur-agung-perdana'])
+            ->get()
+            ->each(function (Member $m) {
+                $m->trades()->delete();
+                $m->delete();
+            });
 
-        $andra->trades()->delete();
-        $bima->trades()->delete();
-
-        $this->seedTrades($andra, ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT'], 42, 0.64, 220);
-        $this->seedTrades($bima, ['ETHUSDT', 'SOLUSDT', 'XRPUSDT', 'AVAXUSDT', 'LINKUSDT'], 34, 0.60, 160);
-
-        // ---- Akun login untuk Team (role: team) ----
+        // ---- Akun login untuk Team (role: team) — password: "password" ----
         User::updateOrCreate(['email' => 'azharuddin@lentera.id'], [
             'name' => $azhar->name, 'password' => bcrypt('password'), 'role' => 'team', 'member_id' => $azhar->id,
         ]);
-        User::updateOrCreate(['email' => 'andra@lentera.id'], [
-            'name' => $andra->name, 'password' => bcrypt('password'), 'role' => 'team', 'member_id' => $andra->id,
+        User::updateOrCreate(['email' => 'krisna@lentera.id'], [
+            'name' => $krisna->name, 'password' => bcrypt('password'), 'role' => 'team', 'member_id' => $krisna->id,
         ]);
-
-        // ---- 17 member tambahan (total 20), avatar inisial otomatis ----
-        $names = [
-            'Fajar Nugroho', 'Dimas Prasetyo', 'Rangga Wijaya', 'Yoga Saputra', 'Hendra Kusuma',
-            'Reza Firmansyah', 'Aditya Ramadhan', 'Bagus Santoso', 'Galih Permana', 'Ilham Maulana',
-            'Panca Wibowo', 'Surya Atmaja', 'Teguh Iman', 'Wahyu Setiawan', 'Zaki Abdullah',
-            'Naufal Hakim', 'Rizky Pratama',
-        ];
-        $specs = ['Scalping BTC/ETH', 'Swing Trading', 'Altcoin Momentum', 'Price Action', 'Options & Hedging', 'Day Trading Index', 'On-chain Analysis', 'DeFi & Narrative'];
-        $titles = ['Trader', 'Analis Teknikal', 'Konsultan Trading', 'Senior Trader', 'Trading Coach'];
-        $cities = ['Jakarta', 'Surabaya', 'Bandung', 'Yogyakarta', 'Medan', 'Semarang'];
-        $symbolsPool = [
-            ['BTCUSDT', 'ETHUSDT'],
-            ['SOLUSDT', 'BNBUSDT', 'ETHUSDT'],
-            ['XRPUSDT', 'ADAUSDT', 'DOGEUSDT'],
-            ['AVAXUSDT', 'LINKUSDT', 'DOTUSDT'],
-            ['ARBUSDT', 'OPUSDT', 'SUIUSDT'],
-        ];
-
-        $order = 3;
-        foreach ($names as $i => $name) {
-            $m = Member::updateOrCreate(['slug' => \Illuminate\Support\Str::slug($name)], [
-                'name' => $name,
-                'title' => $titles[$i % count($titles)],
-                'tagline' => 'Konsisten mengikuti sistem & manajemen risiko.',
-                'bio' => $name.' adalah bagian dari tim konsultan Lentera Project. Fokus pada eksekusi disiplin, '
-                    .'manajemen risiko yang ketat, dan edukasi anggota agar mampu trading secara mandiri.',
-                'specialization' => $specs[$i % count($specs)],
-                'experience_years' => 2 + ($i % 6),
-                'location' => $cities[$i % count($cities)].', Indonesia',
-                'joined_at' => now()->subMonths(6 + $i * 2)->format('Y-m-d'),
-                'consultation_rate' => 200000 + ($i % 6) * 50000,
-                'is_active' => true,
-                'is_featured' => false,
-                'sort_order' => $order++,
-            ]);
-            $m->trades()->delete();
-            $this->seedTrades($m, $symbolsPool[$i % count($symbolsPool)], 20 + ($i % 15), 0.55 + ($i % 5) * 0.03, 120 + ($i % 5) * 40);
-        }
 
         // ---- Layanan ----
         $services = [
